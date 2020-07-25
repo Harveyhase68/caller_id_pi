@@ -1,5 +1,5 @@
 # caller_id_pi
-Use a USRobotics modem on a Raspberry Pi 1/2/3/4 and identify a line phone caller id and send a POST message to a PHP script. Written in Python 3.
+Use a USRobotics modem on a Raspberry Pi 1/2/3/4 and identify a line phone caller id and send a POST message to a PHP script. Written in Python 2.7.
 
 Thanks to Pradeep Singh for his contribution of pass_dtmf_digits (https://github.com/pradeesi/pass_dtmf_digits) he wrote the dtmf send digits to a modem, i adapted his code for my purposes, so i'll give back some code for the community.
 
