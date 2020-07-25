@@ -16,14 +16,16 @@ Don't forget the & at the end of the line, so it will be a process onto another 
 I adapt the date and time to fit for MySQL, so if you want to have plain what your modem outputs chgange:
 
 Line 214 to sDate = modem_response[5:]
+
 Line 217 to sTime = modem_response[5:]
 
 If you want absolutely no output on command line change
 
 Line 80 to # print "Modem COM Port is: " + com_port
+
 Line 221 to # print("CALL: " + sNumber + " Datum: "+sDate+ " Uhrzeit: "+sTime)
 
-# is a comment line
+The # sign, starts a comment line
 
 The error messages I would leave a is... Line 80 & 221 are informaton messages, they can be commented out with #
 
@@ -32,6 +34,7 @@ Change line 27 - MODEM_CALL_TIMEOUT = 2 to whatever you like, this is a safety p
 You need:
 
 https://requests.readthedocs.io/en/master/
+
 pipenv install requests
 
 No warranty at all, please add your comments in issues or leave a message on office@predl.cc thx
