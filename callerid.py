@@ -5,13 +5,12 @@
 ##--- Derived from Author: Pradeep Singh - https://github.com/pradeesi/pass_dtmf_digits
 ##--- Date: 29th June 2018
 ##--- Version: 1.1
-##--- Python Ver: 3+
+##--- Python Ver: 2.7
 ##--- Description: Caller id detection, write to PHP script
 ##--- Hardware: Raspberry Pi/2/3/4 and USRobotics USR5637 USB Modem
 ##------------------------------------------
 
 import serial
-
 import time
 import threading
 import sys
@@ -55,9 +54,9 @@ def detect_COM_port():
 
 	# List all the Serial COM Ports on Raspberry Pi
 	proc = subprocess.Popen(['ls /dev/tty[A-Za-z]*'], shell=True, stdout=subprocess.PIPE)
-	com_ports = proc.communicate()[0]
+	com_ports = proc.communicate()[0].encode("utf-8","replace")
 	com_ports_list = com_ports.split('\n')
-
+	
 	# Find the right port associated with the Voice Modem
 	for com_port in com_ports_list:
 		if 'tty' in com_port:
@@ -67,17 +66,17 @@ def detect_COM_port():
 				set_COM_port_settings(com_port)
 				analog_modem.open()
 			except:
-				print "Unable to open COM Port: " + com_port
+				print("Unable to open COM Port: " + com_port)
 				pass
 			else:
 				#Try to put Modem in Voice Mode
 				if not exec_AT_cmd("AT+FCLASS=8", "OK"):
-					print "Error: Failed to put modem into voice mode."
+					print("Error: Failed to put modem into voice mode.")
 					if analog_modem.isOpen():
 						analog_modem.close()
 				else:
 					# Found the COM Port exit the loop
-					print "Modem COM Port is: " + com_port
+					print("Modem COM Port is: " + com_port)
 					analog_modem.flushInput()
 					analog_modem.flushOutput()
 					break
@@ -94,7 +93,7 @@ def init_modem_settings():
 	try:
 		detect_COM_port()
 	except:
-		print "Error: Unable to open the Serial Port."
+		print("Error: Unable to open the Serial Port.")
 		sys.exit()
 
 	# Initialize the Modem
@@ -105,30 +104,30 @@ def init_modem_settings():
 
 		# Test Modem connection, using basic AT command.
 		if not exec_AT_cmd("AT"):
-			print "Error: Unable to access the Modem"
+			print("Error: Unable to access the Modem")
 
 		# reset to factory default.
 		if not exec_AT_cmd("ATZ3"):
-			print "Error: Unable reset to factory default"			
+			print("Error: Unable reset to factory default")
 			
 		# Display result codes in verbose form 	
 		if not exec_AT_cmd("ATV1"):
-			print "Error: Unable set response in verbose form"	
+			print("Error: Unable set response in verbose form")
 
 		# Enable Command Echo Mode.
 		if not exec_AT_cmd("ATE1"):
-			print "Error: Failed to enable Command Echo Mode"		
+			print("Error: Failed to enable Command Echo Mode")
 
 		# Enable formatted caller report.
 		if not exec_AT_cmd("AT+VCID=1"):
-			print "Error: Failed to enable formatted caller report."
+			print("Error: Failed to enable formatted caller report.")
 			
 		# Flush any existing input outout data from the buffers
 		analog_modem.flushInput()
 		analog_modem.flushOutput()
 
 	except:
-		print "Error: unable to Initialize the Modem"
+		print("Error: unable to Initialize the Modem")
 		sys.exit()
 #=================================================================
 
@@ -156,7 +155,7 @@ def exec_AT_cmd(modem_AT_cmd, expected_response="OK"):
 
 	except:
 		disable_modem_event_listener = False
-		print "Error: Failed to execute the command"
+		print("Error: Failed to execute the command")
 		return False		
 #=================================================================
 
@@ -174,6 +173,7 @@ def read_AT_cmd_response(expected_response="OK"):
 		while 1:
 			# Read Modem Data on Serial Rx Pin
 			modem_response = analog_modem.readline()
+			print(modem_response)
 			# print modem_response
 			# Recieved expected Response
 			if expected_response in modem_response.strip(' \t\n\r' + chr(16)):
@@ -189,7 +189,7 @@ def read_AT_cmd_response(expected_response="OK"):
 
 
 	except:
-		print "Error in read_modem_response function..."
+		print("Error in read_modem_response function...")
 		return False
 #=================================================================
 
@@ -225,3 +225,4 @@ while True:
 			if r.text[0:]=="0":
 				#something went wrong!!!
 				print(r.text)
+#done
