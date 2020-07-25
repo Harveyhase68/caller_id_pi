@@ -1,12 +1,12 @@
 #!/usr/bin/python
 ##------------------------------------------
-##--- Author: Pradeep Singh - https://github.com/pradeesi/pass_dtmf_digits
+##--- Author: Alexander Predl - https://github.com/harveyhase68/caller_id_pi
+##--- Date: 25th July 2020
+##--- Derived from Author: Pradeep Singh - https://github.com/pradeesi/pass_dtmf_digits
 ##--- Date: 29th June 2018
-##--- Adaption: Alexander Predl - https://github.com/harveyhase68/caller_id_pi
-##--- Date: 5th July 2020
-##--- Version: 1.0
+##--- Version: 1.1
 ##--- Python Ver: 3+
-##--- Description: former tone dial, now caller id detection, write to PHP script
+##--- Description: Caller id detection, write to PHP script
 ##--- Hardware: Raspberry Pi/2/3/4 and USRobotics USR5637 USB Modem
 ##------------------------------------------
 
